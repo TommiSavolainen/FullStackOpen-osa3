@@ -1,0 +1,27 @@
+{
+  "name": "fullstackopen-osa3",
+  "version": "1.0.0",
+  "description": "puhelinluettelo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TommiSavolainen/FullStackOpen-osa3.git"
+  },
+  "author": "Tommi Savolainen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TommiSavolainen/FullStackOpen-osa3/issues"
+  },
+  "homepage": "https://github.com/TommiSavolainen/FullStackOpen-osa3#readme",
+  "dependencies": {
+    "express": "^5.0.0-beta.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
