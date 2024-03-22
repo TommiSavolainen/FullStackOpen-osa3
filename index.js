@@ -1,7 +1,11 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 app.use(express.json());
-
+morgan.token('data', function (req, res) {
+    return JSON.stringify(req.name);
+});
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'));
 let persons = [
     {
         id: 1,
@@ -57,21 +61,19 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body;
-    console.log(typeof body.name);
-    console.log(typeof persons[0].name);
-    console.log(body.name);
-    console.log(persons[0].name);
-    console.log(persons.includes(body.name));
     if (!body.name || !body.number) {
         return response.status(400).json({
             error: 'content missing',
         });
     }
-    if (persons.includes(body.name)) {
-        return response.status(400).json({
-            error: 'name must be unique',
-        });
-    }
+    persons.forEach((person) => {
+        if (person.name == body.name) {
+            return response.status(400).json({
+                error: 'name must be unique',
+            });
+        }
+    });
+
     const person = {
         name: body.name,
         number: body.number,
