@@ -47,6 +47,21 @@ app.get('/api/persons:id', (request, response, next) => {
 //     return maxId + 1;
 // };
 
+app.put('/api/persons/:id', (request, response, next) => {
+    const body = request.body;
+
+    const person = {
+        name: body.name,
+        number: body.number,
+    };
+
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+        .then((updatedPerson) => {
+            response.json(updatedPerson);
+        })
+        .catch((error) => next(error));
+});
+
 app.post('/api/persons', (request, response) => {
     const body = request.body;
     console.log(body);
@@ -71,6 +86,7 @@ app.post('/api/persons', (request, response) => {
 
     morgan.token('data', (request) => JSON.stringify(request.body));
 });
+
 const errorHandler = (error, request, response, next) => {
     console.error(error.message);
 
@@ -83,6 +99,7 @@ const errorHandler = (error, request, response, next) => {
 
 // tämä tulee kaikkien muiden middlewarejen ja routejen rekisteröinnin jälkeen!
 app.use(errorHandler);
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
