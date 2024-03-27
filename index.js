@@ -25,12 +25,19 @@ app.delete('/api/persons/:id', (request, response, next) => {
         .catch((error) => next(error));
 });
 
-// app.get('/info', (request, response) => {
-//     const day = new Date();
-//     response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${day}</p>`);
-// });
+app.get('/api/info', (request, response) => {
+    const day = new Date();
+    Person.countDocuments({})
+        .then((count) => {
+            response.send(`<p>Phonebook has info for ${count} people</p><p>${day}</p>`);
+        })
+        .catch((error) => {
+            console.error(error);
+            response.status(500).send('Error counting documents');
+        });
+});
 
-app.get('/api/persons:id', (request, response, next) => {
+app.get('/api/persons/:id', (request, response, next) => {
     console.log(request.params.id);
     Person.findById(request.params.id)
         .then((person) => {
@@ -41,13 +48,11 @@ app.get('/api/persons:id', (request, response, next) => {
                 response.status(404).end();
             }
         })
-        .catch((error) => next(error));
+        .catch((error) => {
+            console.log(error);
+            next(error);
+        });
 });
-
-// const generateId = () => {
-//     const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-//     return maxId + 1;
-// };
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body;
@@ -70,13 +75,6 @@ app.post('/api/persons', (request, response) => {
     if (body.name === undefined) {
         return response.status(400).json({ error: 'name missing' });
     }
-    // persons.forEach((person) => {
-    //     if (person.name == body.name) {
-    //         return response.status(400).json({
-    //             error: 'name must be unique',
-    //         });
-    //     }
-    // });
     const person = new Person({
         name: body.name,
         number: body.number,
