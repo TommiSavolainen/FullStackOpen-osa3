@@ -70,6 +70,7 @@ app.get('/info', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body;
+    console.log(body);
     if (body.content === undefined) {
         return response.status(400).json({ error: 'content missing' });
     }
@@ -80,7 +81,6 @@ app.post('/api/persons', (request, response) => {
     //         });
     //     }
     // });
-
     const person = new Person({
         name: body.name,
         number: body.number,
