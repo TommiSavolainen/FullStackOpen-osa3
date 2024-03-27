@@ -70,30 +70,30 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body;
-    if (!body.name || !body.number) {
-        return response.status(400).json({
-            error: 'content missing',
-        });
+    if (body.content === undefined) {
+        return response.status(400).json({ error: 'content missing' });
     }
-    persons.forEach((person) => {
-        if (person.name == body.name) {
-            return response.status(400).json({
-                error: 'name must be unique',
-            });
-        }
-    });
+    // persons.forEach((person) => {
+    //     if (person.name == body.name) {
+    //         return response.status(400).json({
+    //             error: 'name must be unique',
+    //         });
+    //     }
+    // });
 
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
-        id: generateId(),
-    };
+    });
 
-    persons = persons.concat(person);
+    person.save().then((savedPerson) => {
+        response.json(savedPerson);
+    });
+    // persons = persons.concat(person);
 
-    console.log(person);
+    // console.log(person);
     morgan.token('data', (request) => JSON.stringify(request.body));
-    response.json(person);
+    // response.json(person);
 });
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
