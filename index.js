@@ -59,14 +59,14 @@ app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${day}</p>`);
 });
 
-app.get('/api/persons', (request, response) => {
-    response.json(persons);
-});
+// app.get('/api/persons', (request, response) => {
+//     response.json(persons);
+// });
 
-const generateId = () => {
-    const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-    return maxId + 1;
-};
+// const generateId = () => {
+//     const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
+//     return maxId + 1;
+// };
 
 app.post('/api/persons', (request, response) => {
     const body = request.body;
