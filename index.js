@@ -71,8 +71,8 @@ app.get('/info', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body;
     console.log(body);
-    if (body.content === undefined) {
-        return response.status(400).json({ error: 'content missing' });
+    if (body.name === undefined) {
+        return response.status(400).json({ error: 'name missing' });
     }
     // persons.forEach((person) => {
     //     if (person.name == body.name) {
