@@ -31,8 +31,10 @@ app.delete('/api/persons/:id', (request, response, next) => {
 // });
 
 app.get('/api/persons:id', (request, response, next) => {
+    console.log(request.params.id);
     Person.findById(request.params.id)
         .then((person) => {
+            console.log(person);
             if (person) {
                 response.json(person);
             } else {
